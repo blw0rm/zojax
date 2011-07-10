@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block page_class %}home-page{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="manage">
+        {% if user.is_authenticated %}
+        <span class="headtext">Manage and share your documents with friends and partners</span>
+        <ul class="doclist">
+            {% for d in documents %}
+                <li class="doc">
+                    <p class="title">{{ d.title }}</p>
+                    <div class="meta">
+                        <span>{{ d.file.size|filesizeformat }},</span>
+                        <span>{{ d.pub_date|timesince }} ago</span>
+                        <p class="right">
+                            <a href="{{ d.file.url }}" title="Download" target="_blank"><img src="{{ STATIC_URL }}images/download.png"></a>
+                            <a href="{{ d.preview_url }}" title="Preview" target="_blank" class="preview"><img src="{{ STATIC_URL }}images/preview.png"></a>
+                            <a href="{% url share_document d.id %}" title="Share with friends" class="share"><img src="{{ STATIC_URL }}images/share_l.png"></a>
+                            <a href="{% url remove_document d.id %}" title="Remove file" class="remove"><img src="{{ STATIC_URL }}images/delete.png"></a>
+                        </p>
+                    </div>
+                    <div class="extra"></div>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <span class="headtext">You are not authenticated. Log in system, please.</span>
+        {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+    <div class="upload">
+        <div class="headbox">
+            <span class="headtext">Upload your document</span>
+            <b class="a right closed" id="toggle-visibility">Show</b>
+        </div>
+        <form method="post" enctype="multipart/form-data" action="." class="box hidden">
+            {% csrf_token %}
+            <formfield>
+                {{ form.as_p }}
+                <p><input type="submit" value="{% trans "Upload" %}"/></p>
+            </formfield>
+        </form>
+    </div>
+    {% endif %}
+  </div>
+  
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        $(function(){
+            $(".doclist .meta a.preview").click(function(){
+                var li = $(this).parents("li");
+                var extra = li.find("div.extra");
+                extra.html('');
+                if ( !$(this).hasClass("opened") ) {
+                    $(".doclist .meta a.opened").removeClass("opened");
+                    li.animate({
+                        width: "90%"
+                    });
+                    extra.append('<a href="#" class="close">Close Preview</a>');
+                    extra.append('<iframe src="'+$(this).attr("href")+'" width="100%" height="780" style="border: none;"></iframe>');
+                    extra.find("a.close").click(function(){
+                        li.find(".meta a.preview").click();
+                        return false;
+                    });
+                } else {
+                    li.animate({
+                        width: "50%"
+                    });
+                }
+                $(this).toggleClass("opened");
+
+                return false;
+            });
+            $(".doclist .meta a.share").click(function(){
+                var li = $(this).parents("li");
+                var extra = li.find("div.extra");
+                extra.html('');
+                if ( !$(this).hasClass("opened") ) {
+                    $(".doclist .meta a.opened").removeClass("opened");
+                    li.animate({
+                        width: "90%"
+                    });
+                    extra.append('<a href="#" class="close">Close Share Form</a>');
+                    extra.append('<div class="formwrapper"></div>');
+                    var wrapper = extra.find(".formwrapper");
+                    $.get($(this).attr("href"), function(data, textStatus, jqXHR) {
+                        if (data) {
+                            wrapper.html(data);
+                            wrapper.find("form").submit(bindShare);
+                        }
+                    });
+                    extra.find("a.close").click(function(){
+                        li.find(".meta a.share").click();
+                        return false;
+                    });
+                } else {
+                    li.animate({
+                        width: "50%"
+                    });
+                }
+                $(this).toggleClass("opened");
+
+                return false;
+            });
+
+            $("div.upload #toggle-visibility").click(function() {
+                if ($(this).hasClass("closed")) {
+                    $(this).removeClass("closed");
+                    $(this).text("Hide");
+                } else {
+                    $(this).addClass("closed");
+                    $(this).text("Show");
+                }
+                $("div.upload form").toggleClass("hidden");
+
+            });
+            $(".doc .remove").click(function(){
+                var doc = $(this).parents("li.doc");
+                $.get($(this).attr("href"), function(data, textStatus, jqXHR) {
+                    if (data) {
+                        doc.fadeOut('slow', function() { doc.remove();});
+                    }
+                }, "json");
+                return false;
+            });
+
+        });
+    </script>
+{% endblock %}

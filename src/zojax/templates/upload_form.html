@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<form method="post" enctype="multipart/form-data" action="." class="box hidden">
+    {% csrf_token %}
+    <formfield>
+        {{ form.as_p }}
+        <p><input type="submit" value="{% trans "Upload" %}"/></p>
+    </formfield>
+</form>

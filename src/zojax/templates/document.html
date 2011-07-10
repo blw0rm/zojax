@@ -1,0 +1,14 @@
+<li class="doc">
+    <p class="title">{{ d.title }}</p>
+    <div class="meta">
+        <span>{{ d.file.size|filesizeformat }},</span>
+        <span>{{ d.pub_date|timesince }} ago</span>
+        <p class="right">
+            <a href="{{ d.file.url }}" title="Download" target="_blank"><img src="{{ STATIC_URL }}images/download.png"></a>
+            <a href="{{ d.preview_url }}" title="Preview" target="_blank" class="preview"><img src="{{ STATIC_URL }}images/preview.png"></a>
+            <a href="{% url share_document d.id %}" title="Share with friends" class="share"><img src="{{ STATIC_URL }}images/share_l.png"></a>
+            <a href="{% url remove_document d.id %}" title="Remove file" class="remove"><img src="{{ STATIC_URL }}images/delete.png"></a>
+        </p>
+    </div>
+    <div class="extra"></div>
+</li>

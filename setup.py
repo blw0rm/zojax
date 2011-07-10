@@ -16,7 +16,10 @@ def read(fname):
 install_requires = [
         'setuptools',
         'Django == 1.3',
-        'django-storages'
+        'django-storages',
+        'django-debug-toolbar',
+        'django-annoying',
+        'python-openid'
 ]
 
 # Extra dependencies for test purposes

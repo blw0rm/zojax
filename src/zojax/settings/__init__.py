@@ -67,7 +67,8 @@ SECRET_KEY = 'w-fd5ujpeneh@)44sn-lasyrlshdjf4k*)(#kru*ls6jo5^!ol^kwuq4z+j(w'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
+    (#'django.template.loaders.cached.Loader',
+    (
         'django.template.loaders.app_directories.Loader',
         'django.template.loaders.eggs.Loader',
     )),
@@ -82,8 +83,9 @@ MIDDLEWARE_CLASSES = (
 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'annoying.middlewares.RedirectMiddleware',
 
-#    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#     'debug_toolbar.middleware.DebugToolbarMiddleware',
 #    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
@@ -92,17 +94,14 @@ AUTHENTICATION_BACKENDS = (
     'publicauth.PublicBackend',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.auth',
-    'django.core.context_processors.request',
-    'django.core.context_processors.media',
-    'django.contrib.messages.context_processors.messages',
-    )
 
 ROOT_URLCONF = 'zojax.urls'
 
 
 INSTALLED_APPS = (
+    #Own
+    'zojax',
+    
     #Built-in
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -112,16 +111,18 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #Own
-    'zojax',
     #External
+    'publicauth',
+    'debug_toolbar',
+    
 
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
     'django.core.context_processors.csrf',
-    'django.core.context_processors.static',
+#    'django.core.context_processors.static',
+    'django.core.context_processors.debug',
 )
 
 TEST_RUNNER = "zojax.tests.coverage_runner.run_tests"
@@ -132,32 +133,27 @@ COVERAGE_REPORT_PATH = os.path.join(PROJECT_ROOT, 'coverage_report')
 #CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/accounts/login/'
-LOGOUT_URL = '/accounts/logout/'
-
-SITE_NAME = ugettext('Projectname')
-
-# It is needed due to bug in django with IPAddressField when null=True and blank=True is set.
-DEFAULT_IP = '127.0.0.1'
+LOGIN_URL = '/account/login/'
+LOGOUT_URL = '/account/logout/'
 
 # debug toolbar
-#INTERNAL_IPS = ('127.0.0.1', )
-#DEBUG_TOOLBAR_PANELS = (
-#        #'debug_toolbar.panels.version.VersionDebugPanel',
-#        'debug_toolbar.panels.timer.TimerDebugPanel',
-#        #'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-#        'debug_toolbar.panels.headers.HeaderDebugPanel',
-#        'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-#        'debug_toolbar.panels.template.TemplateDebugPanel',
-#        'debug_toolbar.panels.sql.SQLDebugPanel',
-#        #'debug_toolbar.panels.cache.CacheDebugPanel',
-#        #'debug_toolbar.panels.signals.SignalDebugPanel',
-#        'debug_toolbar.panels.logger.LoggingPanel',
-#)
-#
-#DEBUG_TOOLBAR_CONFIG = {
-#    'INTERCEPT_REDIRECTS': False,
-#}
+INTERNAL_IPS = ('127.0.0.1', )
+DEBUG_TOOLBAR_PANELS = (
+        #'debug_toolbar.panels.version.VersionDebugPanel',
+        'debug_toolbar.panels.timer.TimerDebugPanel',
+        #'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+        'debug_toolbar.panels.headers.HeaderDebugPanel',
+        'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+        'debug_toolbar.panels.template.TemplateDebugPanel',
+        'debug_toolbar.panels.sql.SQLDebugPanel',
+        #'debug_toolbar.panels.cache.CacheDebugPanel',
+        #'debug_toolbar.panels.signals.SignalDebugPanel',
+        'debug_toolbar.panels.logger.LoggingPanel',
+)
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+}
 
 LOGGING = {
     'version': 1,
@@ -188,6 +184,22 @@ from S3 import CallingFormat
 
 AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
 
+
+# OpenID & OAuth settings
+PUBLICAUTH_EXTRA_FORM = 'zojax.forms.ExtraForm'
+PUBLICAUTH_ACTIVATION_REQUIRED = False
+
+#API_KEY = "DAtsOy4KRonlpuPTfb6Miw"
+# https://dev.twitter.com/apps/1045770
+#
+TWITTER_PROFILE_MAPPING = { 'screen_name': 'username', }
+
+GOOGLE_PROFILE_MAPPING = {
+    'email': 'email',
+    'fullname': 'last_name',
+    }
+
+FILE_PREVIEW_URL = "https://docs.google.com/viewer?embedded=true&url="
 
 try:
     from .local import *

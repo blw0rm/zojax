@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% if not success %}
+<form method="post" action="{% url share_document document.id %}" class="box">
+    {% csrf_token %}
+    <p class="sharehead">Share this document with friends</p>
+    <formfield>
+        {{ form.as_p }}
+        <p><input type="submit" value="{% trans "Share" %}"/></p>
+    </formfield>
+</form>
+{% else %}
+    <p class="sharehead">Document has been shared successfully.</p>
+{% endif %}

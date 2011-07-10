@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h2>{% trans "Registration with OpenID: last step" %}</h2>
+<form method="post">
+    {% csrf_token %}
+    <formfield>
+        <div class="wide">{{ form.as_p }}</div>
+        <p><input type="submit" value="{% trans "Submit" %}"/></p>
+    </formfield>
+</form>
+{% endblock %}
