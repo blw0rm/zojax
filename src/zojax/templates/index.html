@@ -72,7 +72,7 @@
                         width: "90%"
                     });
                     extra.append('<a href="#" class="close">Close Preview</a>');
-                    extra.append('<iframe src="'+$(this).attr("href")+'" width="100%" height="780" style="border: none;"></iframe>');
+                    extra.append('<iframe src="'+$(this).attr("href")+'" width="100%" height="740" style="border: none;"></iframe>');
                     extra.find("a.close").click(function(){
                         li.find(".meta a.preview").click();
                         return false;
@@ -101,7 +101,9 @@
                     $.get($(this).attr("href"), function(data, textStatus, jqXHR) {
                         if (data) {
                             wrapper.html(data);
-                            wrapper.find("form").submit(bindShare);
+                            wrapper.find("form").ajaxForm({
+                                success:   bindShare  // post-submit callback
+                            });
                         }
                     });
                     extra.find("a.close").click(function(){
@@ -117,6 +119,13 @@
 
                 return false;
             });
+            var options = {
+                            success:       bindUpload,  // post-submit callback
+                            dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
+                        };
+            // bind form using 'ajaxForm'
+            
+
 
             $("div.upload #toggle-visibility").click(function() {
                 if ($(this).hasClass("closed")) {
@@ -139,72 +148,12 @@
                 return false;
             });
 
-            //$("div.upload form").submit(bindUpload);
-
-            /*
-
             var options = {
                             success:       bindUpload,  // post-submit callback
                             dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
                         };
             // bind form using 'ajaxForm'
             $("div.upload form").ajaxForm(options);
-
-            function bindUpload() {
-                var wrapper = $(this).parents(".formwrapper"),
-                    doclist = $("ul.doclist"),
-                    form = $(this);
-
-                $.post(form.attr("action"), form.serializeArray(), function(data, textStatus, jqXHR){
-                    if (data) {
-                        wrapper.html(data.form);
-                        if (data.document) {
-                            doclist.append(data.document);
-                        }
-                        wrapper.find("form").submit(bindUpload);
-                    }
-                }, "json");
-
-                return false;
-            }
-
-            * */
-            /*
-            function bindUpload() {
-
-                var wrapper = $(this).parents(".formwrapper"),
-                    doclist = $("ul.doclist"),
-                    form = $(this);
-
-                $.post(form.attr("action"), form.serializeArray(), function(data, textStatus, jqXHR){
-                    if (data) {
-                        wrapper.html(data.form);
-                        if (data.document) {
-                            doclist.append(data.document);
-                        }
-                        wrapper.find("form").submit(bindUpload);
-                    }
-                }, "json");
-
-                return false;
-            }
-
-            function bindUpload(data, status, xhr, $form) {
-                console.log(xhr, $form);
-                var wrapper = $form.parents(".formwrapper"),
-                    doclist = $("ul.doclist");
-
-                if (data) {
-                    wrapper.html(data.form);
-                    if (data.document) {
-                        doclist.append(data.document);
-                    }
-                    wrapper.find("form").ajaxForm({
-                                success:       bindUpload,  // post-submit callback
-                                dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
-                        });
-                }
-            }*/
 
 
         });

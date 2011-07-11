@@ -11,12 +11,13 @@ from django.shortcuts import get_object_or_404, redirect
 
 from zojax.models import Document
 from zojax.forms import DocumentForm, ShareForm
+from zojax.utils import send_message
 
 
 def index(request, template="index.html",
           queryset = Document.objects.all(), form_class = DocumentForm,
           extra_context=None):
-    """Home page."""
+    """Home page. Show list of user's files and process file upload."""
 
     form = form_class(request.POST or None, request.FILES or None)
     document = None
@@ -39,10 +40,10 @@ def index(request, template="index.html",
         "form": form,
         "d": document,
     }
-
     apply_extra_context(extra_context or {}, context)
 
-    if request.POST:#request.is_ajax():
+    if request.POST:
+        context["visible"] = True
         response = {
             "form":render_to_string("upload_form.html",
                                     context_instance=RequestContext(
@@ -58,13 +59,12 @@ def index(request, template="index.html",
                                             )
         return HttpResponse('<textarea>%s</textarea>' % simplejson.dumps(
                                                                     response))
-#                            content_type="application/json; charset=utf-8")
 
     return TemplateResponse(request, template, context)
 
 @login_required
 def remove_document(request, object_id):
-    """Remove document object by id when authorized user is owner.."""
+    """Remove document object by id when authorized user is owner"""
 
     document = get_object_or_404(Document, id=object_id, user=request.user)
     try:
@@ -86,18 +86,19 @@ def remove_document(request, object_id):
 def share_document(request, object_id, template="share_form.html",
                    form_class = ShareForm,
                    extra_context=None):
-    """Remove document object by id when authorized user is owner.."""
+    """Share document by id when with other people"""
 
     document = get_object_or_404(Document, id=object_id, user=request.user)
 
     form = form_class(request.POST or None, request.FILES or None)
 
     if form.is_valid():
-        pass
-#        document = form.save(commit=False)
-#        document.user = request.user
-#        document.save()
-#        form = form_class()
+        send_message(form.cleaned_data["email"],
+                     "email/share.html","email/share_subject.txt",
+                     sender=request.user,
+                     extra_context={"document": document,
+                                    "message": form.cleaned_data["message"]})
+
         return TemplateResponse(request, template, {"success": True,})
 
     context = {
@@ -109,3 +110,18 @@ def share_document(request, object_id, template="share_form.html",
 
     return TemplateResponse(request, template, context)
 
+
+def view_document(request, object_id, template="document_view.html",
+                   extra_context=None):
+    """View document object by id: preview or download"""
+
+    document = get_object_or_404(Document, id=object_id, user=request.user)
+
+
+    context = {
+        "document": document
+    }
+
+    apply_extra_context(extra_context or {}, context)
+
+    return TemplateResponse(request, template, context)

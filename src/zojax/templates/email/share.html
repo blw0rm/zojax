@@ -1,0 +1,26 @@
+{% extends "email/base.html" %}
+{% load i18n %}
+
+{% block body %}
+<p style="margin-top:0; margin-bottom: 18px; font-size:12px; line-height:18px">
+    <font face="Arial, Helvetica, sans-serif" color="#333333">Hi!</font>
+</p>
+<div style="font-size:12px;">
+    <font face="Arial, Helvetica, sans-serif" color="#333333">{{ message|safe|linebreaks }}</font>
+</div>
+<p style="font-size:12px;">
+    <font face="Arial, Helvetica, sans-serif" color="#333333">
+        Regards, {{ sender.get_full_name }}
+    </font>
+</p>
+<p style="margin-top:0; margin-bottom: 18px; font-size:12px; line-height:18px">
+    <font face="Arial, Helvetica, sans-serif" color="#333333">{{ sender.get_full_name }} wants to share it with you:</font>
+</p>
+<p style="margin-top:0; margin-bottom: 18px; line-height:18px">
+    <font face="Arial, Helvetica, sans-serif" color="#333333" style="font-size:12px; line-height:18px"><b>Document: <a href="{{ document.get_absolute_uri }}">{{ document.title }}</a></b></font>
+    <br/>
+</p>
+<p style="margin-top:0; margin-bottom: 18px; font-size:12px; line-height:18px">
+    <font face="Arial, Helvetica, sans-serif" color="#333333">You can preview or download the document by visiting link given above.</font>
+</p>
+{% endblock %}

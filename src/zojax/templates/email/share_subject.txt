@@ -1,0 +1,1 @@
+{{ sender.get_full_name }} want to share something with you

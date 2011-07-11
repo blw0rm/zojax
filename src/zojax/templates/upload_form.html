@@ -1,5 +1,5 @@
 {% load i18n %}
-<form method="post" enctype="multipart/form-data" action="." target="upload_frame" class="box">
+<form method="post" enctype="multipart/form-data" action="." target="upload_frame" class="box {% if not visible %}hidden{% endif %}">
     {% csrf_token %}
     <formfield>
         {{ form.as_p }}

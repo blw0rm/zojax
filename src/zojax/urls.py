@@ -20,6 +20,8 @@ urlpatterns += patterns('zojax.views',
     url(r'^$', "index", name="index"),
     url(r'^document/delete/(\d+)/$', "remove_document", name="remove_document"),
     url(r'^document/share/(\d+)/$', "share_document", name="share_document"),
+    url(r'^document/(\d+)/$', "view_document", name="view_document"),
+
 
 )
 

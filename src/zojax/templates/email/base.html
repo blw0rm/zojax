@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load i18n %}
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style>
+            div.footer p {
+                margin-top: 7px;
+            }
+        </style>
+    </head>
+
+    <body lang=EN-GB link=blue vlink=purple style='tab-interval:36.0pt'>
+
+        <table border="0" cellpadding="0" cellspacing="0" width="600">
+            <tr>
+                <td width="20"></td>
+                <td width="560">
+                    {% block body %}
+                    {% endblock %}
+                </td>
+                <td width="20"></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <p style="font-size: 14px; text-align: right; color: #fbd6b0;">
+                        <font face="Arial, Helvetica, sans-serif">Powered by <span style="font-size: 18px;">Zojax</span>
+                        </font>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="border-top:1px; border-width:1px; border-color:#888888; border-top-style:solid;">
+                    <br/>
+                    <p style="margin-top:0; margin-bottom: 15px; line-height:15px" align="center">
+                        <font face="Arial, Helvetica, sans-serif" color="#333333" style="font-size:10px;">This message was sent through Zojax software.
+                            The sender indicated that you were known to them.
+                        </font>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

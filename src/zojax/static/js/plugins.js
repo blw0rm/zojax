@@ -14,39 +14,31 @@
 
 })(this.jQuery);
 
-function bindShare() {
-    var wrapper = $(this).parent(),
-        form = $(this);
-    $.post(form.attr("action"), form.serializeArray(), function(data, textStatus, jqXHR){
-        if (data) {
-            wrapper.html(data);
-            wrapper.find("form").submit(bindShare);
-        }
-    });
-    return false;
+function bindShare(data, status, xhr, $form) {
+    var wrapper = $form.parents(".formwrapper");
+    if (data) {
+        wrapper.html(data);
+        wrapper.find("form").ajaxForm({
+            success:   bindShare  // post-submit callback
+        });
+    }
 }
 
-function bindUpload() {
-    var wrapper = $(this).parents(".formwrapper"),
-        doclist = $("ul.doclist"),
-        form = $(this);
+function bindUpload(data, status, xhr, $form) {
+    var wrapper = $form.parents(".formwrapper"),
+        doclist = $("ul.doclist");
 
-    form.submit();
-    /*
-    $.post(form.attr("action"), form.serializeArray(), function(data, textStatus, jqXHR){
-        if (data) {
-            wrapper.html(data.form);
-            if (data.document) {
-                doclist.append(data.document);
-            }
-            wrapper.find("form").submit(bindUpload);
+    if (data) {
+        wrapper.html(data.form);
+        if (data.document) {
+            doclist.append(data.document);
         }
-    }, "json");
-    */
-
-    return false;
+        wrapper.find("form").ajaxForm({
+            success:   bindUpload,  // post-submit callback
+            dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
+        });
+    }
 }
-
 
 
 // usage: log('inside coolFunc',this,arguments);

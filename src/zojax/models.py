@@ -7,7 +7,7 @@ from django.core.files.storage import default_storage
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from zojax.utils import default_upload_to
+from zojax.utils import default_upload_to, get_absolute_uri
 
 
 class Document(models.Model):
@@ -40,6 +40,15 @@ class Document(models.Model):
                                           force_update=force_update,
                                           using=using)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return 'view_document', [str(self.id)]
+
+    def get_absolute_uri(self):
+        """Build absolute URI for model object."""
+        return get_absolute_uri(self.get_absolute_url())
+
+    
     class Meta:
         ordering = ('title',)
         verbose_name = _("document")
