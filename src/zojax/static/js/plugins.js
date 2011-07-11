@@ -26,6 +26,27 @@ function bindShare() {
     return false;
 }
 
+function bindUpload() {
+    var wrapper = $(this).parents(".formwrapper"),
+        doclist = $("ul.doclist"),
+        form = $(this);
+
+    form.submit();
+    /*
+    $.post(form.attr("action"), form.serializeArray(), function(data, textStatus, jqXHR){
+        if (data) {
+            wrapper.html(data.form);
+            if (data.document) {
+                doclist.append(data.document);
+            }
+            wrapper.find("form").submit(bindUpload);
+        }
+    }, "json");
+    */
+
+    return false;
+}
+
 
 
 // usage: log('inside coolFunc',this,arguments);

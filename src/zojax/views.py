@@ -3,6 +3,8 @@
 from django.utils import simplejson
 from django.http import HttpResponse
 from django.template.response import TemplateResponse
+from django.template.loader import render_to_string
+from django.template import RequestContext
 from django.views.generic.create_update import apply_extra_context
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
@@ -11,17 +13,17 @@ from zojax.models import Document
 from zojax.forms import DocumentForm, ShareForm
 
 
-def index(request, template="index.html", ajax_template="upload_form.html",
+def index(request, template="index.html",
           queryset = Document.objects.all(), form_class = DocumentForm,
           extra_context=None):
     """Home page."""
 
     form = form_class(request.POST or None, request.FILES or None)
+    document = None
 
     if request.user.is_authenticated():
         # Show documents for owner. Anonymous users cant use system.
         documents = queryset.filter(user=request.user)
-        document = None
 
         if form.is_valid():
             document = form.save(commit=False)
@@ -40,8 +42,23 @@ def index(request, template="index.html", ajax_template="upload_form.html",
 
     apply_extra_context(extra_context or {}, context)
 
-    if request.is_ajax():
-        return TemplateResponse(request, template, context)
+    if request.POST:#request.is_ajax():
+        response = {
+            "form":render_to_string("upload_form.html",
+                                    context_instance=RequestContext(
+                                                            request,
+                                                            context)
+                                    )
+                    }
+        if document is not None:
+            response["document"] = render_to_string("document.html",
+                                             context_instance=RequestContext(
+                                                                    request,
+                                                                    context)
+                                            )
+        return HttpResponse('<textarea>%s</textarea>' % simplejson.dumps(
+                                                                    response))
+#                            content_type="application/json; charset=utf-8")
 
     return TemplateResponse(request, template, context)
 

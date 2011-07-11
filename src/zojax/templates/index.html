@@ -11,6 +11,7 @@
         <span class="headtext">Manage and share your documents with friends and partners</span>
         <ul class="doclist">
             {% for d in documents %}
+                {% comment %}
                 <li class="doc">
                     <p class="title">{{ d.title }}</p>
                     <div class="meta">
@@ -25,6 +26,8 @@
                     </div>
                     <div class="extra"></div>
                 </li>
+                {% endcomment %}
+                {% include "document.html" %}
             {% endfor %}
         </ul>
         {% else %}
@@ -37,13 +40,18 @@
             <span class="headtext">Upload your document</span>
             <b class="a right closed" id="toggle-visibility">Show</b>
         </div>
-        <form method="post" enctype="multipart/form-data" action="." class="box hidden">
-            {% csrf_token %}
-            <formfield>
-                {{ form.as_p }}
-                <p><input type="submit" value="{% trans "Upload" %}"/></p>
-            </formfield>
-        </form>
+        <div class="formwrapper">
+            {% include "upload_form.html" %}
+            {% comment %}
+            <form method="post" enctype="multipart/form-data" action="." class="box hidden">
+                {% csrf_token %}
+                <formfield>
+                    {{ form.as_p }}
+                    <p><input type="submit" value="{% trans "Upload" %}"/></p>
+                </formfield>
+            </form>
+            {% endcomment %}
+        </div>
     </div>
     {% endif %}
   </div>
@@ -130,6 +138,74 @@
                 }, "json");
                 return false;
             });
+
+            //$("div.upload form").submit(bindUpload);
+
+            /*
+
+            var options = {
+                            success:       bindUpload,  // post-submit callback
+                            dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
+                        };
+            // bind form using 'ajaxForm'
+            $("div.upload form").ajaxForm(options);
+
+            function bindUpload() {
+                var wrapper = $(this).parents(".formwrapper"),
+                    doclist = $("ul.doclist"),
+                    form = $(this);
+
+                $.post(form.attr("action"), form.serializeArray(), function(data, textStatus, jqXHR){
+                    if (data) {
+                        wrapper.html(data.form);
+                        if (data.document) {
+                            doclist.append(data.document);
+                        }
+                        wrapper.find("form").submit(bindUpload);
+                    }
+                }, "json");
+
+                return false;
+            }
+
+            * */
+            /*
+            function bindUpload() {
+
+                var wrapper = $(this).parents(".formwrapper"),
+                    doclist = $("ul.doclist"),
+                    form = $(this);
+
+                $.post(form.attr("action"), form.serializeArray(), function(data, textStatus, jqXHR){
+                    if (data) {
+                        wrapper.html(data.form);
+                        if (data.document) {
+                            doclist.append(data.document);
+                        }
+                        wrapper.find("form").submit(bindUpload);
+                    }
+                }, "json");
+
+                return false;
+            }
+
+            function bindUpload(data, status, xhr, $form) {
+                console.log(xhr, $form);
+                var wrapper = $form.parents(".formwrapper"),
+                    doclist = $("ul.doclist");
+
+                if (data) {
+                    wrapper.html(data.form);
+                    if (data.document) {
+                        doclist.append(data.document);
+                    }
+                    wrapper.find("form").ajaxForm({
+                                success:       bindUpload,  // post-submit callback
+                                dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
+                        });
+                }
+            }*/
+
 
         });
     </script>
