@@ -110,6 +110,28 @@ b.a:hover {
     color: #036;
 }
 
+/* AJAX */
+div.loader {
+  background-image: url("../images/ajax-loader.gif");
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 2;
+  position: absolute;
+}
+div.loader div {
+  text-align: center;
+  background-color: #FFFE36;
+  color: #484848;
+}
+
+.ajax-loading {
+  -moz-opacity: .2;
+  opacity: .2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+
+}
+
 header {
     background-color: #232323;
     border-bottom: 1px solid #151515;
@@ -171,13 +193,39 @@ header .container {
     text-decoration: none;
 }
 
+#copyright {
+    background-color: #232323;
+    border-bottom: 1px solid #151515;
+    height: 125px;
+    margin-top: 2px;
+    min-width: 984px;
+}
+
+.container .copyright {
+    padding-top: 35px;
+}
+
+.container .copyright p {
+    color: #837E76;
+    font-size: 9px;
+    font-variant: small-caps;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.container .copyright span {
+    padding: 0 7px;
+}
+
+
 div#main .container {
     margin: 20px auto;
     width: 984px;
 }
 
 #main  {
-    padding-top: 10px;
+    padding: 10px 0px;
+    min-height: 500px;
 }
 
 #main .container .headtext {
@@ -195,7 +243,7 @@ div#main .container {
     overflow-y: auto;*/
 }
 
-.doclist li, form.box {
+.doclist li, form.box, div.doc {
     background: none repeat scroll 0 0 #DDDDDD;
     border: 1px solid #BBBBBB;
     padding: 10px;
@@ -211,7 +259,7 @@ form.box {
     background: none repeat scroll 0 0 #eaeaea;
 }
 
-.doclist .title {
+.doclist .title, div.doc .title {
     font-family: MgOpen Modata,Geneva,sans-serif;
     font-size: 16px;
     color: #2792a4;
@@ -221,7 +269,11 @@ form.box {
     border: 1px solid #0DCE0D;
 }
 
-.doclist li div.extra {
+.meta .size {
+    color: #227a26;
+}
+
+.doclist li div.extra, div.doc div.extra {
     position: relative;
 }
 
@@ -234,14 +286,14 @@ div.extra a.close {
     top: -50px;
 }
 
-div.upload, div.manage {
+div.upload, div.manage, div.openid {
     background: none repeat scroll 0 0 #CCC;
     border: 1px solid #BBB;
     padding: 10px;
     margin: 5px 0px;
 }
 
-.upload form {
+.upload form, .openid form {
     margin: 10px auto;
     width: 50%;
 }

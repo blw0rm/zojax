@@ -34,7 +34,7 @@ def send_message(to_email, body_template, subject_template,
     headers = {'Reply-To': reply_to}
 
     context.update(extra_context or {})
-#    import ipdb; ipdb.set_trace()
+
     msg = EmailMessage(render_to_string(subject_template, context),
                        render_to_string(body_template, context),
                        from_email, # from

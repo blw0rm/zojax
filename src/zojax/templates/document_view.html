@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block page_class %}home-page{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="manage">
+        <span class="headtext">You can preview or download this document</span>
+
+        <div class="doc">
+            <p class="title">{{ d.title }}</p>
+            <div class="meta">
+                <span class="size">{{ d.file.size|filesizeformat }},</span>
+                <span>{{ d.pub_date|timesince }} ago</span>
+                <p class="right">
+                    <a href="{{ d.file.url }}" title="Download" target="_blank"><img src="{{ STATIC_URL }}images/download.png"></a>
+                    <a href="{{ d.preview_url }}" title="Preview" target="_blank" class="preview"><img src="{{ STATIC_URL }}images/preview.png"></a>
+                </p>
+            </div>
+            <div class="extra"></div>
+        </div>
+    </div>
+  </div>
+  
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        $(function(){
+            $(".doc .meta a.preview").click(function(){
+                var doc = $(this).parents(".doc");
+                var extra = doc.find("div.extra");
+                extra.html('');
+                if ( !$(this).hasClass("opened") ) {
+                    $(".doc .meta a.opened").removeClass("opened");
+                    doc.animate({
+                        width: "90%"
+                    });
+                    extra.append('<a href="#" class="close">Close Preview</a>');
+                    extra.append('<iframe src="'+$(this).attr("href")+'" width="100%" height="740" style="border: none;"></iframe>');
+                    extra.find("a.close").click(function(){
+                        doc.find(".meta a.preview").click();
+                        return false;
+                    });
+                } else {
+                    doc.animate({
+                        width: "50%"
+                    });
+                }
+                $(this).toggleClass("opened");
+
+                return false;
+            });
+        });
+    </script>
+{% endblock %}

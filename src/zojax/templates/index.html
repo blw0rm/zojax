@@ -5,56 +5,8 @@
 {% block page_class %}home-page{% endblock %}
 
 {% block content %}
-  <div class="container">
-    <div class="manage">
-        {% if user.is_authenticated %}
-        <span class="headtext">Manage and share your documents with friends and partners</span>
-        <ul class="doclist">
-            {% for d in documents %}
-                {% comment %}
-                <li class="doc">
-                    <p class="title">{{ d.title }}</p>
-                    <div class="meta">
-                        <span>{{ d.file.size|filesizeformat }},</span>
-                        <span>{{ d.pub_date|timesince }} ago</span>
-                        <p class="right">
-                            <a href="{{ d.file.url }}" title="Download" target="_blank"><img src="{{ STATIC_URL }}images/download.png"></a>
-                            <a href="{{ d.preview_url }}" title="Preview" target="_blank" class="preview"><img src="{{ STATIC_URL }}images/preview.png"></a>
-                            <a href="{% url share_document d.id %}" title="Share with friends" class="share"><img src="{{ STATIC_URL }}images/share_l.png"></a>
-                            <a href="{% url remove_document d.id %}" title="Remove file" class="remove"><img src="{{ STATIC_URL }}images/delete.png"></a>
-                        </p>
-                    </div>
-                    <div class="extra"></div>
-                </li>
-                {% endcomment %}
-                {% include "document.html" %}
-            {% endfor %}
-        </ul>
-        {% else %}
-            <span class="headtext">You are not authenticated. Log in system, please.</span>
-        {% endif %}
-    </div>
-    {% if user.is_authenticated %}
-    <div class="upload">
-        <div class="headbox">
-            <span class="headtext">Upload your document</span>
-            <b class="a right closed" id="toggle-visibility">Show</b>
-        </div>
-        <div class="formwrapper">
-            {% include "upload_form.html" %}
-            {% comment %}
-            <form method="post" enctype="multipart/form-data" action="." class="box hidden">
-                {% csrf_token %}
-                <formfield>
-                    {{ form.as_p }}
-                    <p><input type="submit" value="{% trans "Upload" %}"/></p>
-                </formfield>
-            </form>
-            {% endcomment %}
-        </div>
-    </div>
-    {% endif %}
-  </div>
+
+    {% include "ajax/index_content.html" %}
   
 {% endblock %}
 
@@ -62,7 +14,7 @@
     {{ block.super }}
     <script>
         $(function(){
-            $(".doclist .meta a.preview").click(function(){
+            $(".doclist .meta a.preview").live("click", function(){
                 var li = $(this).parents("li");
                 var extra = li.find("div.extra");
                 extra.html('');
@@ -86,7 +38,7 @@
 
                 return false;
             });
-            $(".doclist .meta a.share").click(function(){
+            $(".doclist .meta a.share").live("click", function(){
                 var li = $(this).parents("li");
                 var extra = li.find("div.extra");
                 extra.html('');
@@ -119,15 +71,16 @@
 
                 return false;
             });
-            var options = {
-                            success:       bindUpload,  // post-submit callback
-                            dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
-                        };
-            // bind form using 'ajaxForm'
-            
-
-
-            $("div.upload #toggle-visibility").click(function() {
+            $(".doc .remove").live("click", function(){
+                var doc = $(this).parents("li.doc");
+                $.get($(this).attr("href"), function(data, textStatus, jqXHR) {
+                    if (data) {
+                        doc.fadeOut('slow', function() { doc.remove();});
+                    }
+                }, "json");
+                return false;
+            });
+            $("div.upload #toggle-visibility").live("click", function() {
                 if ($(this).hasClass("closed")) {
                     $(this).removeClass("closed");
                     $(this).text("Hide");
@@ -138,23 +91,10 @@
                 $("div.upload form").toggleClass("hidden");
 
             });
-            $(".doc .remove").click(function(){
-                var doc = $(this).parents("li.doc");
-                $.get($(this).attr("href"), function(data, textStatus, jqXHR) {
-                    if (data) {
-                        doc.fadeOut('slow', function() { doc.remove();});
-                    }
-                }, "json");
-                return false;
+            $("div.upload form").ajaxForm({
+                success:       bindUpload,  // post-submit callback
+                dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
             });
-
-            var options = {
-                            success:       bindUpload,  // post-submit callback
-                            dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
-                        };
-            // bind form using 'ajaxForm'
-            $("div.upload form").ajaxForm(options);
-
 
         });
     </script>

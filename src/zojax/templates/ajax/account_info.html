@@ -1,0 +1,18 @@
+{% if user.is_authenticated %}
+    <span>Welcome, {{ user.get_full_name }}</span>
+    <p><a href="{% url publicauth-logout %}" id="logout">Logout</a></p>
+{% else %}
+<span>Sign in with: </span>
+<ul id="account-nav">
+    <li>
+        <a href="{% url publicauth-begin 'twitter' %}?next={% url auth_success_ajax %}" title="Sign In with Twitter" onclick="return $(this).showPopup();">
+            <img src="{{ STATIC_URL }}images/twitter.png">
+        </a>
+    </li>
+    <li>
+        <a href="{% url publicauth-begin 'google' %}?openid_url=https://www.google.com/accounts/o8/id&next={% url auth_success_ajax %}" title="Sign In with Google" onclick="return $(this).showPopup();">
+            <img src="{{ STATIC_URL }}images/google.png">
+        </a>
+    </li>
+</ul>
+{% endif %}

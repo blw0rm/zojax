@@ -8,6 +8,7 @@ from django.template import RequestContext
 from django.views.generic.create_update import apply_extra_context
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
+from django.conf import settings
 
 from zojax.models import Document
 from zojax.forms import DocumentForm, ShareForm
@@ -56,9 +57,26 @@ def index(request, template="index.html",
                                              context_instance=RequestContext(
                                                                     request,
                                                                     context)
-                                            )
+                                                    )
         return HttpResponse('<textarea>%s</textarea>' % simplejson.dumps(
                                                                     response))
+
+    if request.is_ajax():
+        # For ajax request we need to send only parts of page.
+        response = {
+            "account": render_to_string("ajax/account_info.html",
+                                        context_instance=RequestContext(
+                                                                    request,
+                                                                    context)
+                                        ),
+            "content": render_to_string("ajax/index_content.html",
+                                        context_instance=RequestContext(
+                                                                    request,
+                                                                    context)
+                                        ),
+        }
+        return HttpResponse(simplejson.dumps(response),
+                            content_type="application/json; charset=utf-8")
 
     return TemplateResponse(request, template, context)
 
@@ -115,13 +133,30 @@ def view_document(request, object_id, template="document_view.html",
                    extra_context=None):
     """View document object by id: preview or download"""
 
-    document = get_object_or_404(Document, id=object_id, user=request.user)
+    document = get_object_or_404(Document, id=object_id)
 
 
     context = {
-        "document": document
+        "d": document
     }
 
+    apply_extra_context(extra_context or {}, context)
+
+    return TemplateResponse(request, template, context)
+
+@login_required
+def auth_success(request, template="publicauth/popup.html",
+                   extra_context=None):
+    """View required for authentication processing.
+        When user comes first time we need filling extra form
+        and redirecting to LOGIN_REDIRECT_URL otherwise we have
+        popup which should close itself.
+    """
+
+    if request.session.has_key("extra"):
+        # Filling extra form finished. Need redirect.
+        return redirect(getattr(settings, "LOGIN_REDIRECT_URL", "/"))
+    context = {}
     apply_extra_context(extra_context or {}, context)
 
     return TemplateResponse(request, template, context)

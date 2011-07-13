@@ -1,0 +1,28 @@
+[
+    {
+          "pk": 3,
+          "model": "auth.user",
+          "fields": {
+               "username": "admin",
+               "first_name": "",
+               "last_name": "",
+               "is_active": true,
+               "is_superuser": true,
+               "is_staff": true,
+               "last_login": "2011-07-11 20:35:53",
+               "groups": [],
+               "user_permissions": [],
+               "password": "sha1$6f33a$e19c2ae04afccaf49902351bc2a56311162b5380",
+               "email": "aa@aa.aa",
+               "date_joined": "2011-07-11 20:35:25"
+          }
+    },
+    {
+          "pk": 1,
+          "model": "sites.site",
+          "fields": {
+               "domain": "local.zojax.com",
+               "name": "local.zojax.com"
+          }
+     }
+]

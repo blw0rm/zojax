@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<form method="post" action="{{ request.path }}">
+    {% csrf_token %}
+    <formfield>
+        <div class="wide">{{ form.as_p }}</div>
+        <p><input type="submit" value="{% trans "Submit" %}"/></p>
+    </formfield>
+</form>

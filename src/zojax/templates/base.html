@@ -41,29 +41,30 @@
 
                 <a class="logo" href="/"><span>Zojax</span></a>
 
-                <div class="account-wrapper">
-                    {% if user.is_authenticated %}
-                        <span>Welcome, {{ user.get_full_name }}</span>
-                        <p><a href="{% url publicauth-logout %}">Logout</a></p>
-                    {% else %}
-                    <span>Sign in with: </span>
-                    <ul id="account-nav">
-                        <li><a href="{% url publicauth-begin 'twitter' %}?next={{ request.GET.next }}" title="Sign In with Twitter"><img src="{{ STATIC_URL }}images/twitter.png"></a></li>
-                        <li><a href="{% url publicauth-begin 'google' %}?openid_url=https://www.google.com/accounts/o8/id&next={{ request.GET.next }}" title="Sign In with Google"><img src="{{ STATIC_URL }}images/google.png"></a></li>
-                    </ul>
-                    {% endif %}
+                <div class="account-wrapper" id="account-box">
+                    {% include "ajax/account_info.html" %}
                 </div>
             </div> <!-- end .container -->
         </header>
         {% endblock header %}
         
         <div id="main" role="main">
+            <div class="container">
             {% block content %}{% endblock %}
+            </div>
         </div>
         
         {% block footer %}
         <footer>
-
+          <div id="copyright">
+            <div class="container">
+                <div class="copyright">
+                  <p>
+                    <span>COPYRIGHT &copy; 2011 BLW0RM</span>
+                  </p>
+                </div>
+          </div>
+        </div>
         </footer>
         {% endblock footer %}
     </div> <!-- end of #container -->

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block javascript %}
+    
+{{ block.super }}
+
+<script>
+    $(function(){
+        if (opener != null) {
+            $.get("{% url index %}", function(data, textStatus, jqXHR) {
+                var jdata = $(data);
+                opener.jQuery("#account-box").html(jdata.find("#account-box").html());
+                opener.jQuery("#main").html(jdata.find("#main").html());
+                opener.jQuery("div.upload form").ajaxForm({
+                    success:   opener.bindUpload,  // post-submit callback
+                    dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
+                });
+                window.close();
+            });
+        }
+    });
+</script>
+{% endblock %}

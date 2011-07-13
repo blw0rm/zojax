@@ -2,12 +2,33 @@
 {% load i18n %}
 
 {% block content %}
-<h2>{% trans "Registration with OpenID: last step" %}</h2>
-<form method="post">
-    {% csrf_token %}
-    <formfield>
-        <div class="wide">{{ form.as_p }}</div>
-        <p><input type="submit" value="{% trans "Submit" %}"/></p>
-    </formfield>
-</form>
+<div class="openid">
+    <div class="headbox">
+        <span class="headtext">{% trans "Registration with OpenID: last step" %}</span>
+    </div>
+    <div class="formwrapper">
+        {% include "publicauth/extra_form.html" %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        $(function(){
+            if (opener != null) {
+                opener.jQuery("#account-box").html($("#account-box").html());
+                opener.jQuery("#main").html($("#main").html());
+                opener.jQuery(".openid form").ajaxForm({
+                    success:   opener.bindExtra  // post-submit callback
+                });
+                window.close();
+            }
+
+            $(".openid form").ajaxForm({
+                success:   bindExtra  // post-submit callback
+            });
+        });
+    </script>
 {% endblock %}

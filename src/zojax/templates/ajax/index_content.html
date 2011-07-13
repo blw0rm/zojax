@@ -1,0 +1,23 @@
+<div class="manage">
+    {% if user.is_authenticated %}
+    <span class="headtext">Manage and share your documents with friends and partners</span>
+    <ul class="doclist">
+        {% for d in documents %}
+            {% include "document.html" %}
+        {% endfor %}
+    </ul>
+    {% else %}
+        <span class="headtext">You are not authenticated. Log in system, please.</span>
+    {% endif %}
+</div>
+{% if user.is_authenticated %}
+<div class="upload">
+    <div class="headbox">
+        <span class="headtext">Upload your document</span>
+        <b class="a right closed" id="toggle-visibility">Show</b>
+    </div>
+    <div class="formwrapper">
+        {% include "upload_form.html" %}
+    </div>
+</div>
+{% endif %}
