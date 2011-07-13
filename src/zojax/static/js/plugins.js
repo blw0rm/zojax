@@ -56,8 +56,17 @@ function bindShare(data, status, xhr, $form) {
 }
 
 function bindExtra(data, status, xhr, $form) {
-    var wrapper = $form.parents(".formwrapper"),
-        jdata = $(data);
+    var wrapper = $form.parents(".formwrapper");
+    console.log(status, xhr);
+    console.log("xhr.status.toString() -> ", xhr.status.toString());
+    if(xhr.status.toString()[0]=='3'){
+        console.log(xmlHttp.getResponseHeader('Location'));
+    }
+    
+    var    jdata = $(data);
+
+    console.log("$(data); -> ", $(data).html());
+
     var openid_form = jdata.find(".openid form");
     if (openid_form.length > 0) {
         wrapper.html('');
@@ -67,7 +76,7 @@ function bindExtra(data, status, xhr, $form) {
         });
     } else { /* We are on main page */
         $("#account-box").html(jdata.find("#account-box").html());
-        $("#main").html(jdata.find("#main").html());
+        $("#main  div.container").html(jdata.find("#main div.container").html());
         $("div.upload form").ajaxForm({
             success:    bindUpload,  // post-submit callback
             dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
@@ -78,7 +87,7 @@ function bindExtra(data, status, xhr, $form) {
 function bindUpload(data, status, xhr, $form) {
     var wrapper = $form.parents(".formwrapper"),
         doclist = $("ul.doclist");
-    $form.deleteIndicator();
+    $form.deleteIndicator(); // Remove loading indicator
     if (data) {
         wrapper.html(data.form);
         if (data.document) {
@@ -86,7 +95,7 @@ function bindUpload(data, status, xhr, $form) {
         }
         wrapper.find("form").ajaxForm({
             beforeSubmit: function(arr, $form, options) {
-                $form.loadIndicator();
+                $form.loadIndicator();  // Show loading indicator
             },
             success:   bindUpload,  // post-submit callback
             dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)

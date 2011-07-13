@@ -42,6 +42,7 @@ def index(request, template="index.html",
         "d": document,
     }
     apply_extra_context(extra_context or {}, context)
+#    import ipdb; ipdb.set_trace()
 
     if request.POST:
         context["visible"] = True

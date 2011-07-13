@@ -7,4 +7,13 @@
     </formfield>
 </form>
 <iframe id="upload_frame" style="display: none;" name="upload_frame"></iframe>
+{% comment %}
+<script>
+    $(function() {
+        $(".openid form").ajaxForm({
+            success:   bindExtra  // post-submit callback
+        });
+    })
+</script>
+{% endcomment %}
 

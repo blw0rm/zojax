@@ -9,15 +9,11 @@
     $(function(){
         if (opener != null) {
             $.get("{% url index %}", function(data, textStatus, jqXHR) {
-                var jdata = $(data);
-                opener.jQuery("#account-box").html(jdata.find("#account-box").html());
-                opener.jQuery("#main").html(jdata.find("#main").html());
-                opener.jQuery("div.upload form").ajaxForm({
-                    success:   opener.bindUpload,  // post-submit callback
-                    dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
-                });
+                window.opener.jQuery("#account-box").html(data.account);
+                window.opener.jQuery("#main div.container").html(data.content);
+                window.opener.bindUploadForm();
                 window.close();
-            });
+            }, "json");
         }
     });
 </script>

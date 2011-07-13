@@ -30,6 +30,13 @@
     {% block css %}{% endblock %}
 
     <script src="{{ STATIC_URL }}js/modernizr-2.0.js"></script>
+    {% block javascript_library %}
+        {% if not debug %}
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        {% endif %}
+        <script>!window.jQuery && document.write(unescape('%3Cscript src="{{ STATIC_URL }}js/jquery-1.6.1.min.js"%3E%3C/script%3E'))</script>
+    {% endblock %}
+
 </head>
 
 <body class="{% block body_class %}main{% endblock %}">
@@ -67,14 +74,9 @@
         </div>
         </footer>
         {% endblock footer %}
-    </div> <!-- end of #container -->
-    
-    {% block javascript_library %}
-    {% if not debug %}
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-    {% endif %}
-    <script>!window.jQuery && document.write(unescape('%3Cscript src="{{ STATIC_URL }}js/jquery-1.6.1.min.js"%3E%3C/script%3E'))</script>
-    {% endblock %}
+    </div> <!-- end of #container --    >
+
+
     
     {% block javascript %}
         <script src="{{ STATIC_URL }}js/jquery.form.js"></script>

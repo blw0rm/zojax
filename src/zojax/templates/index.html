@@ -91,11 +91,27 @@
                 $("div.upload form").toggleClass("hidden");
 
             });
-            $("div.upload form").ajaxForm({
-                success:       bindUpload,  // post-submit callback
-                dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
-            });
+            bindUploadForm();
 
         });
+    function bindUploadForm() {
+        /*
+        * Fucntion need for binding upload form from popup window
+        * due to problems in IE
+        * */
+        $("div.upload form").ajaxForm({
+            success:   bindUpload,  // post-submit callback
+            dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
+        });
+    }
+    function bindExtraForm() {
+        /*
+        * Fucntion need for binding extra form from popup window
+        * due to problems in IE
+        * */
+        $(".openid form").ajaxForm({
+            success:   bindExtra  // post-submit callback
+        });
+    }
     </script>
 {% endblock %}
