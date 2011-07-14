@@ -19,7 +19,16 @@
         $(function(){
             if (window.opener != null) {
                 //opener.jQuery("#account-box").html($("#account-box").html());
-                window.opener.jQuery("#main").html($("#main").html());
+                var parent = $(window.opener.document).find("#main .container");
+                parent.html($("#main .container").html());
+                /*
+                * In IE7,8 bug found: form can't be parsed correct by jquery
+                *
+                var parent_form = parent.find(".formwrapper form");
+                parent.find(".formwrapper").html("");
+                parent.find(".formwrapper").append(parent_form);
+                parent.find(".formwrapper form").html($(".formwrapper form").html());
+                */
                 window.opener.bindExtraForm();
                 
                 window.close();

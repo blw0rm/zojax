@@ -57,15 +57,11 @@ function bindShare(data, status, xhr, $form) {
 
 function bindExtra(data, status, xhr, $form) {
     var wrapper = $form.parents(".formwrapper");
-    console.log(status, xhr);
-    console.log("xhr.status.toString() -> ", xhr.status.toString());
-    if(xhr.status.toString()[0]=='3'){
-        console.log(xmlHttp.getResponseHeader('Location'));
-    }
-    
+//    console.log(status, xhr);
+//    console.log("xhr.status.toString() -> ", xhr.status.toString());
     var    jdata = $(data);
 
-    console.log("$(data); -> ", $(data).html());
+//    console.log("$.parseJSON(data) -> ", $.parseJSON(data));
 
     var openid_form = jdata.find(".openid form");
     if (openid_form.length > 0) {
