@@ -89,7 +89,10 @@ Specific settings
 -----------------
 
 Create local settings (./src/settings/local.py)::
-
+....
+  AWS_ACCESS_KEY_ID = "PLACE YOUR KEY ID HERE"
+  AWS_SECRET_ACCESS_KEY = "PLACE YOUR SECRET ACCESS EY"
+  AWS_STORAGE_BUCKET_NAME = "zojax"
 ..
   DATABASES = {
     'default': {
@@ -105,6 +108,7 @@ Create local settings (./src/settings/local.py)::
   DEBUG_PROPAGATE_EXCEPTIONS = False
   SERVE_MEDIA = False
 ..
+  # Appropriate email settings here
 ..
   MEDIA_URL = 'http://media.example.com/'
 ..
