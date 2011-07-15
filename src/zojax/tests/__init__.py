@@ -1,3 +1,3 @@
 ### -*- coding: utf-8 -*- ####################################################
 
-# Import all tests here...
+from zojax.tests.func_tests import *

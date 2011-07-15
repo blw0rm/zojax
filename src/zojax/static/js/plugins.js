@@ -56,14 +56,10 @@ function bindShare(data, status, xhr, $form) {
 }
 
 function bindExtra(data, status, xhr, $form) {
-    var wrapper = $form.parents(".formwrapper");
-//    console.log(status, xhr);
-//    console.log("xhr.status.toString() -> ", xhr.status.toString());
-    var    jdata = $(data);
-
-//    console.log("$.parseJSON(data) -> ", $.parseJSON(data));
-
-    var openid_form = jdata.find(".openid form");
+    var wrapper = $form.parents(".formwrapper"),
+        jdata = $(data),
+        openid_form = jdata.find(".openid form");
+    
     if (openid_form.length > 0) {
         wrapper.html('');
         wrapper.append(openid_form);
@@ -71,12 +67,25 @@ function bindExtra(data, status, xhr, $form) {
             success:   bindExtra  // post-submit callback
         });
     } else { /* We are on main page */
-        $("#account-box").html(jdata.find("#account-box").html());
-        $("#main  div.container").html(jdata.find("#main div.container").html());
-        $("div.upload form").ajaxForm({
-            success:    bindUpload,  // post-submit callback
-            dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
-        });
+        if (jdata.find("#account-box").length == 0) {
+            /*
+             * Data is JSON. Firefox contains a bug:
+             * https://bugzilla.mozilla.org/show_bug.cgi?id=553888
+             * */
+            $("#account-box").html(data.account);
+            $("#main div.container").html(data.content);
+            $("div.upload form").ajaxForm({
+                success:    bindUpload,  // post-submit callback
+                dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
+            });
+        } else {
+            $("#account-box").html(jdata.find("#account-box").html());
+            $("#main  div.container").html(jdata.find("#main div.container").html());
+            $("div.upload form").ajaxForm({
+                success:    bindUpload,  // post-submit callback
+                dataType:  "json"        // 'xml', 'script', or 'json' (expected server response type)
+            });
+        }
     }
 }
 

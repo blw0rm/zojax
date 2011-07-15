@@ -11,7 +11,29 @@ from zojax.utils import default_upload_to, get_absolute_uri
 
 
 class Document(models.Model):
-    """Document models provide file and its title."""
+    """Document models provide file and its title.
+    Lets test the model can be saved:
+    >>> from django.core.files.uploadedfile import SimpleUploadedFile
+    >>> from django.contrib.auth.models import User
+    >>> from zojax.models import Document
+    >>> import tempfile
+    >>> import os
+    >>> fd, fn = tempfile.mkstemp()
+    >>> file = open(fn, "w")
+    >>> file.write("Test Content")
+    >>> file.close()
+    >>> file = open(fn, "r")
+    >>> user = User.objects.create(username="test2")
+    >>> document = Document(user=user, title="Some title")
+    >>> document.file = SimpleUploadedFile(file.name, file.read())
+    >>> file.close()
+    >>> document.save()
+    >>> document
+    <Document: Some title>
+    >>> document.delete()
+    >>> os.remove(fn)
+    
+    """
     title = models.CharField(verbose_name=_('Document title'),
                              max_length=250, blank=True, null=True)
     user = models.ForeignKey("auth.user", related_name="documents")

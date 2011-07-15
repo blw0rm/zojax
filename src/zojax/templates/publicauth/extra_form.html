@@ -1,9 +1,8 @@
 {% load i18n %}
 
-<form method="post" action="{{ request.path }}?">
+<form method="post" action="{{ request.path }}?"> {# Due to a bug (http://dev.jquery.it/ticket/6236) in query we need ? here #}
     {% csrf_token %}
     <formfield>
-        {{ request.path }}
         <div class="wide">{{ form.as_p }}</div>
         <p><input type="submit" value="{% trans "Submit" %}"/></p>
     </formfield>
