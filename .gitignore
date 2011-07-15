@@ -15,6 +15,8 @@ src/zojax/settings/local.py
 #PyCharm's specific
 src/.idea/
 .idea/
+.hg/
+.hgignore
 
 #buildout's specific
 .installed.cfg

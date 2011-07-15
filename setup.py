@@ -19,7 +19,8 @@ install_requires = [
         'django-storages',
         'django-debug-toolbar',
         'django-annoying',
-        'python-openid'
+        'python-openid',
+        'oauth',
 ]
 
 # Extra dependencies for test purposes
