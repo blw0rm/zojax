@@ -29,7 +29,7 @@ class ShareForm(forms.Form):
 
 
 class ExtraForm(forms.Form):
-    """ Extra form used for extra data requesting from user"""
+    """ Extra form used for extra data requesting from user with OpenID, OAuth"""
     first_name = forms.CharField(max_length=255)
     last_name = forms.CharField(max_length=255)
     email = forms.EmailField(max_length=255)

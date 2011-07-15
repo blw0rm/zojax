@@ -1,9 +1,6 @@
 ### -*- coding: utf-8 -*- ####################################################
 
-#import urllib2
-
 from django.db import models
-from django.core.files.storage import default_storage
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 

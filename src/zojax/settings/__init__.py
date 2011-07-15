@@ -190,7 +190,13 @@ AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
 PUBLICAUTH_EXTRA_FORM = 'zojax.forms.ExtraForm'
 PUBLICAUTH_ACTIVATION_REQUIRED = False
 
-#API_KEY = "DAtsOy4KRonlpuPTfb6Miw"
+
+TWITTER_REQUEST_TOKEN_URL = "http://twitter.com/oauth/request_token"
+TWITTER_ACCESS_TOKEN_URL = "http://twitter.com/oauth/access_token"
+TWITTER_AUTHORIZE_URL = "http://twitter.com/oauth/authorize"
+TWITTER_API_URL = "http://api.twitter.com/1/users/show.json?id=%s"
+
+
 # https://dev.twitter.com/apps/1045770
 #
 TWITTER_PROFILE_MAPPING = { 'screen_name': 'username', }
