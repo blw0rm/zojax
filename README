@@ -141,6 +141,10 @@ Change permissions::
 Extra Information
 =================
 
+Testing application
+-------------------
+./bin/test test zojax
+
 Tested in:
  - IE7,8
  - Opera 11.10
