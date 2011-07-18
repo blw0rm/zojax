@@ -26,33 +26,31 @@ Specific settings
 -----------------
 
 Create local settings (./src/settings/local.py)::
-....
-  AWS_ACCESS_KEY_ID = "PLACE YOUR KEY ID HERE"
-  AWS_SECRET_ACCESS_KEY = "PLACE YOUR SECRET ACCESS EY"
-  AWS_STORAGE_BUCKET_NAME = "zojax"
-..
-  DEBUG = True # For test purposes
-..
-  DATABASES = {
-    'default': {
-        'NAME': 'zojax',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', #'django.db.backends.sqlite3',
-        'USER': 'user',
-        'PASSWORD': 'password',
-    },
 
-  }
-..
-  # For gmail account
-  EMAIL_HOST = 'smtp.gmail.com'
-  EMAIL_HOST_USER = 'yourname@gmail.com'
-  EMAIL_HOST_PASSWORD = 'your password'
-  EMAIL_USE_TLS = True
-  EMAIL_PORT = 587
-..
-  # Publicauth settings
-  TWITTER_CONSUMER_KEY = "YOUR KEY"
-  TWITTER_CONSUMER_SECRET = "YOUR SECRET"
+    AWS_ACCESS_KEY_ID = "PLACE YOUR KEY ID HERE"
+    AWS_SECRET_ACCESS_KEY = "PLACE YOUR SECRET ACCESS EY"
+    AWS_STORAGE_BUCKET_NAME = "zojax"
+    DEBUG = True # For test purposes
+
+    DATABASES = {
+      'default': {
+          'NAME': 'zojax',
+          'ENGINE': 'django.db.backends.postgresql_psycopg2', #'django.db.backends.sqlite3',
+          'USER': 'user',
+          'PASSWORD': 'password',
+      },
+    }
+
+   # For gmail account
+   EMAIL_HOST = 'smtp.gmail.com'
+   EMAIL_HOST_USER = 'yourname@gmail.com'
+   EMAIL_HOST_PASSWORD = 'your password'
+   EMAIL_USE_TLS = True
+   EMAIL_PORT = 587
+
+   # Publicauth settings
+   TWITTER_CONSUMER_KEY = "YOUR KEY"
+   TWITTER_CONSUMER_SECRET = "YOUR SECRET"
 
 Build project
 -------------
@@ -89,30 +87,29 @@ Specific settings
 -----------------
 
 Create local settings (./src/settings/local.py)::
-....
-  AWS_ACCESS_KEY_ID = "PLACE YOUR KEY ID HERE"
-  AWS_SECRET_ACCESS_KEY = "PLACE YOUR SECRET ACCESS EY"
-  AWS_STORAGE_BUCKET_NAME = "zojax"
-..
-  DATABASES = {
-    'default': {
-        'NAME': 'zojax',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', #'django.db.backends.sqlite3',
-        'USER': 'user',
-        'PASSWORD': 'password',
-    },
 
-  }
-..
-  DEBUG = False
-  DEBUG_PROPAGATE_EXCEPTIONS = False
-  SERVE_MEDIA = False
-..
-  # Appropriate email settings here
-..
-  MEDIA_URL = 'http://media.example.com/'
-..
-  ADMINS = (('admin', 'your@email.here'),)
+    AWS_ACCESS_KEY_ID = "PLACE YOUR KEY ID HERE"
+    AWS_SECRET_ACCESS_KEY = "PLACE YOUR SECRET ACCESS EY"
+    AWS_STORAGE_BUCKET_NAME = "zojax"
+
+    DATABASES = {
+      'default': {
+          'NAME': 'zojax',
+          'ENGINE': 'django.db.backends.postgresql_psycopg2', #'django.db.backends.sqlite3',
+          'USER': 'user',
+          'PASSWORD': 'password',
+      },
+    }
+
+    DEBUG = False
+    DEBUG_PROPAGATE_EXCEPTIONS = False
+    SERVE_MEDIA = False
+
+    # Appropriate email settings here
+
+    MEDIA_URL = 'http://media.example.com/'
+
+    ADMINS = (('admin', 'your@email.here'),)
 
 Build project
 -------------
