@@ -148,5 +148,19 @@ Testing application
 Tested in:
  - IE7,8
  - Opera 11.10
- - Firefox 3.6
+ - Mozilla Firefox 3.6
  - Google Chrome 12 (Windows, Linux)
+
+3rd party dependencies
+----------------------
+
+- django - Web framework http://www.djangoproject.com/
+- django-storages - support for dofferent django filestorage backends http://bitbucket.org/david/django-storages/wiki/Home
+- django-debug-toolbar - A configurable set of panels that display various debug information http://pypi.python.org/pypi/django-debug-toolbar/0.8.4
+- django-annoying - Django application that try to eliminate annoying things in Django framework https://bitbucket.org/offline/django-annoying/wiki/Home
+- python-openid - OpenID support for servers and consumers http://pypi.python.org/pypi/python-openid/
+- oauth - A python implementation of the signature logic associated with the OAuth 1.0 protocol http://code.daaku.org/python-oauth/
+- django-publicauth - Django application that allows authenticate users through OpenID/OAuth https://bitbucket.org/offline/django-publicauth/wiki/Home
+- jQuery - Javascript framework http://jquery.com/
+- jQuery.form - AJAX form plugin http://jquery.malsup.com/form/
+- Modernizr - open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites. http://www.modernizr.com/
